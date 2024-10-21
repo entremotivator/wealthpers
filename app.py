@@ -1,5 +1,5 @@
 import streamlit as st
-import matplotlib.pyplot as plt
+import plotly.graph_objs as go
 
 # Title of the app
 st.title("Wealth Dynamics Personality Quiz")
@@ -118,19 +118,19 @@ if st.button("Submit"):
         st.write("**Type D: The Individualist**")
         st.write("You are introspective and unique, often seeking deeper meanings in life.")
 
-    # Line cross-chart for top traits
+    # Plotly line chart for top traits
     trait_names = list(traits[personality_type].keys())
     trait_values = list(traits[personality_type].values())
 
-    fig, ax = plt.subplots()
-    ax.plot(trait_names, trait_values, marker='o', label=personality_type)
-    ax.set_title(f"Top Traits for Type {personality_type}")
-    ax.set_ylabel("Trait Score")
-    ax.set_ylim(0, 10)
-    ax.grid()
-    ax.legend()
-
-    st.pyplot(fig)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=trait_names, y=trait_values, mode='lines+markers', name=personality_type))
+    fig.update_layout(title=f"Top Traits for Type {personality_type}",
+                      yaxis_title="Trait Score",
+                      yaxis=dict(range=[0, 10]),
+                      xaxis_title="Traits",
+                      template='plotly_white')
+    
+    st.plotly_chart(fig)
 
 # To run the app: 
 # Save the script as app.py and run `streamlit run app.py` in the terminal
