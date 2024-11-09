@@ -1,5 +1,4 @@
 import streamlit as st
-from fpdf import FPDF
 
 # Title of the app
 st.title("Wealth Dynamics Personality Quiz")
@@ -20,7 +19,7 @@ scores = {
     "D": 0   # The Individualist
 }
 
-# Extended list of questions and options
+# Questions and options
 questions = [
     ("How do you feel about budgeting?", 
      ["It's essential; I keep a strict budget.", 
@@ -72,22 +71,6 @@ questions = [
       "I enjoy meeting new people.", 
       "I see it as a way to open new opportunities.", 
       "I prefer deeper, meaningful relationships."]),
-    # Additional questions
-    ("How do you handle criticism?", 
-     ["I take it seriously and work to improve.", 
-      "I try to see it as an opportunity to grow.", 
-      "I don’t take it well, and it often affects me.", 
-      "I focus on what resonates with me and ignore the rest."]),
-    ("When making decisions, you:", 
-     ["Carefully weigh all options and potential risks.", 
-      "Trust your gut and make quick decisions.", 
-      "Consult with others and gather opinions.", 
-      "Look for innovative solutions and alternatives."]),
-    ("How would you describe your ideal lifestyle?", 
-     ["Comfortable, secure, and low-risk.", 
-      "Fun, spontaneous, and adventurous.", 
-      "Driven, high-achieving, and focused on success.", 
-      "Creative, unique, and self-expressive."]),
 ]
 
 # Function to update scores based on the user's answers
@@ -171,6 +154,10 @@ if st.button("Submit"):
     for trait, value in traits[personality_type].items():
         st.write(f"- {trait}: {value}")
 
+    st.write(
+        "These traits define how you approach wealth-building and decision-making. Understanding these traits can help you align your financial goals with your natural strengths, making your wealth-building journey more effective and fulfilling."
+    )
+
     # Encourage User to Reflect
     st.write(
         "Now that you've learned about your Wealth Dynamics personality type, reflect on how these traits show up in your life. "
@@ -181,51 +168,5 @@ if st.button("Submit"):
         "Thank you for taking the quiz! Feel free to share your results with friends or come back for further insights on how to apply your Wealth Dynamics personality to your financial strategies."
     )
 
-    # PDF Export Functionality
-    def generate_pdf(personality_type):
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_font("Arial", size=12)
-        
-        # Add Title
-        pdf.cell(200, 10, txt="Wealth Dynamics Personality Quiz Results", ln=True, align="C")
-        pdf.ln(10)
-        
-        # Add Personality Type
-        pdf.cell(200, 10, txt=f"Your Wealth Dynamics Personality Type: {personality_type}", ln=True)
-        
-        # Add Description based on Personality
-        if personality_type == "A":
-            pdf.multi_cell(0, 10, txt="**Type A: The Reformer**\n"
-                "As a Type A, you are known for your strong sense of integrity and a deep desire to improve both yourself and the world around you. "
-                "You are highly analytical, often thinking about long-term stability and security. You may find yourself drawn to roles where you can create structure, systems, and sustainable growth. "
-                "Your wealth strategy likely focuses on minimizing risk and maximizing stability, whether through investments, career choices, or lifestyle decisions.")
-        
-        elif personality_type == "B":
-            pdf.multi_cell(0, 10, txt="**Type B: The Helper**\n"
-                "As a Type B, you are deeply empathetic and driven by a desire to help others. You naturally put others’ needs before your own, whether it's in your career, friendships, or family relationships. "
-                "You tend to attract opportunities for collaboration and teamwork, thriving in environments where you can build connections and support others.")
-        
-        elif personality_type == "C":
-            pdf.multi_cell(0, 10, txt="**Type C: The Achiever**\n"
-                "As a Type C, you are goal-oriented and driven by a desire to achieve success. You are adaptable, constantly seeking new opportunities to grow and improve. "
-                "You tend to be ambitious and may prioritize career or financial success as part of your wealth-building strategy.")
-        
-        elif personality_type == "D":
-            pdf.multi_cell(0, 10, txt="**Type D: The Individualist**\n"
-                "As a Type D, you are introspective and value authenticity. You are naturally creative and often think outside the box. "
-                "Your wealth strategy focuses on long-term vision and creative pursuits, and you often seek meaningful projects that resonate with your deeper values.")
-        
-        # Save PDF file
-        pdf_file = f"wealth_dyn_{personality_type}_results.pdf"
-        pdf.output(pdf_file)
-        return pdf_file
-
-    # Button to download PDF
-    pdf_file = generate_pdf(personality_type)
-    st.download_button(
-        label="Download Your Results as PDF",
-        data=open(pdf_file, "rb").read(),
-        file_name=pdf_file,
-        mime="application/pdf"
-    )
+# To run the app:
+# Save the script as app.py and run `streamlit run app.py` in the terminal
